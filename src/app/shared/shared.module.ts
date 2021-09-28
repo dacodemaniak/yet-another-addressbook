@@ -5,13 +5,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { UiModule } from './ui/ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SignComponent } from './components/sign/sign.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SignComponent
   ],
   imports: [
     CommonModule,
