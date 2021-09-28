@@ -32,7 +32,15 @@ export class AddressBookService {
     return this._persons.find((obj: AddressModel) => obj.id === id);
   }
 
-  public add(person: any): AddressBookService {
+  public add(person: AddressModel): AddressBookService {
+    let nextId: number = 1;
+    if (this._persons.length) {
+      const sortPerson: AddressModel[] = [...this._persons];
+      nextId = sortPerson
+        .sort((u1: AddressModel, u2: AddressModel) => u2.id - u1.id)[0].id + 1;
+    }
+
+    person.id = nextId;
     this._persons.push(person);
     this._itemCount$.next(this._persons.length);
     return this;
@@ -79,7 +87,7 @@ export class AddressBookService {
 
     this._persons.push(
       new AddressModel().deserialize({
-        _id: 1,
+        _id: 2,
         _lastname: 'Bond',
         _firstname: 'James',
         _birthdate: new Date(1935, 6, 30)
