@@ -6,9 +6,10 @@ import { AddressModel } from '../models/address-model';
   providedIn: 'root'
 })
 export class AddressBookService {
-  private _persons: AddressModel[] = [];
+  
   private _itemCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
+  private _persons: AddressModel[] = [];
   constructor() {
     console.log(`Hey, i'm the AddressBookService`);
     this._populate();
@@ -19,6 +20,10 @@ export class AddressBookService {
     return this._itemCount$;
   }
 
+  /**
+   * Returns all AddressModel
+   * @returns AddressModel[]
+   */
   public all(): AddressModel[] {
     return this._persons;
   }
@@ -33,7 +38,13 @@ export class AddressBookService {
     return this;
   }
 
+  /**
+   * 
+   * @param person AddressModel
+   * @returns AddressBookService
+   */
   public update(person: AddressModel): AddressBookService {
+
     this._persons.splice(
       this._persons.findIndex((obj: AddressModel) => obj.id === person.id),
       1,
@@ -52,6 +63,10 @@ export class AddressBookService {
     return this;
   }
 
+  /**
+   * Je ne sais pas à quoi ça sert mais je le laisse au cas où
+   * Keep It Simple and Stupid
+   */
   private _populate(): void {
     this._persons.push(
       new AddressModel().deserialize({
