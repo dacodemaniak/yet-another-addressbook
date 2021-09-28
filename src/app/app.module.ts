@@ -7,12 +7,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { AddressTileComponent } from './pages/home/components/address-tile/address-tile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddAddressComponent } from './pages/add-address/add-address.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AddressTileComponent
+    AddressTileComponent,
+    AddAddressComponent
   ],
   imports: [
     BrowserModule,
