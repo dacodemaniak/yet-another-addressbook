@@ -9,13 +9,15 @@ import { AddressTileComponent } from './pages/home/components/address-tile/addre
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddAddressComponent } from './pages/add-address/add-address.component';
 import { RouterModule } from '@angular/router';
+import { UpdateAddressComponent } from './pages/update-address/update-address.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AddressTileComponent,
-    AddAddressComponent
+    AddAddressComponent,
+    UpdateAddressComponent
   ],
   imports: [
     BrowserModule,
