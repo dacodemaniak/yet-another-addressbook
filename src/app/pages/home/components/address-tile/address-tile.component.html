@@ -1,0 +1,10 @@
+<div class="tile">
+    <h1>{{ person.lastname | uppercase }} {{ person.firstname }}</h1>
+    <blockquote>
+        {{ person.birthdate | date: 'dd-MM-YYYY'}}
+    </blockquote>
+
+    <button type="button" (click)="remove()">
+        Supprimer
+    </button>
+</div>
