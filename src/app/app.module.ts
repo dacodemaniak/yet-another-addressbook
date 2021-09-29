@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddAddressComponent } from './pages/add-address/add-address.component';
 import { RouterModule } from '@angular/router';
 import { UpdateAddressComponent } from './pages/update-address/update-address.component';
+import { AddressFormComponent } from './pages/forms/address-form/address-form.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UpdateAddressComponent } from './pages/update-address/update-address.co
     HomeComponent,
     AddressTileComponent,
     AddAddressComponent,
-    UpdateAddressComponent
+    UpdateAddressComponent,
+    AddressFormComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,10 @@ export class AddressDto implements AddressInterface {
             _firstname: values.firstname,
             _birthdate: values.birthdate
         };
+
+        if (values.hasOwnProperty('_id')) {
+            formData._id = values.id;
+        }
         return new AddressModel().deserialize(formData);
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { AddressDto } from 'src/app/models/address-dto';
 import { AddressModel } from 'src/app/models/address-model';
 import { AddressBookService } from 'src/app/services/address-book.service';
 
@@ -25,9 +26,13 @@ export class UpdateAddressComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    if (this.form.valid) {
+      const dto: AddressDto = new AddressDto();
 
+      this.addressService.update(dto.transform(this.form.value));
+    }
   }
-  
+
   ngOnInit(): void {
     // But how do i get those fck id ?
     this.route.params.subscribe((routeParams: Params) => {
@@ -55,6 +60,9 @@ export class UpdateAddressComponent implements OnInit {
       birthdate: [
         this.person?.birthdate,
         Validators.required
+      ],
+      id: [
+        this.person?.id
       ]
     });
   }
