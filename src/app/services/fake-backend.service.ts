@@ -51,6 +51,27 @@ const router: Map<string, {path: RegExp, method: string, action: any}> = new Map
       }
     }
   )
+  .set(
+    'add',
+    {
+      path: /\api\/v1\/user$/,
+      method: 'PATCH',
+      action: (body: AddressModel): Observable<HttpResponse<any>> => {
+        users.splice(
+          users.findIndex((obj: any) => obj._id === body.id),
+          1,
+          body
+        )
+        localStorage.setItem('users', JSON.stringify(users));
+        return of(
+          new HttpResponse({
+            status: 201,
+            body
+          })
+        )
+      }
+    }
+  )
 @Injectable({
   providedIn: 'root'
 })

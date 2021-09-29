@@ -1,7 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressDto } from 'src/app/models/address-dto';
 import { AddressInterface } from 'src/app/models/address-interface';
@@ -13,9 +14,11 @@ import { AddressBookService } from 'src/app/services/address-book.service';
   templateUrl: './address-manager.component.html',
   styleUrls: ['./address-manager.component.scss']
 })
-export class AddressManagerComponent implements OnInit {
+export class AddressManagerComponent implements OnInit, OnDestroy {
   public form!: FormGroup;
   private addressModel: AddressModel | undefined = new AddressModel();
+
+  private subscribers: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -23,29 +26,33 @@ export class AddressManagerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
+    this.subscribers.push(this.route.params.subscribe((params: Params) => {
       if (params?.id) {
         this.addressModel = this.addressService.one(+params?.id);
         this._makeForm(true);
       } else {
         this._makeForm();
       }
-    });
+    }));
   }
 
   public onSubmit(formDatas: AddressInterface) {
     const dto: AddressDto = new AddressDto();
-    this.addressService.persist(dto.transform(formDatas))
+    this.subscribers.push(this.addressService.persist(dto.transform(formDatas))
       .pipe(
         take(1)
       )
       .subscribe((response: HttpResponse<any>) => {
         console.log(`Got a ${response.status} with ${JSON.stringify(response.body)}`);
       }, (error) => {
-        
-      });
+
+      }));
   }
 
+  ngOnDestroy(): void {
+    this.subscribers.forEach((subscriber: Subscription) => subscriber.unsubscribe());
+  }
+  
   private _makeForm(...args: any[] ): void {
     this.form = new FormGroup({});
 

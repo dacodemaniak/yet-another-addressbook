@@ -69,15 +69,13 @@ export class AddressBookService {
    * @returns AddressBookService
    */
   private update(person: AddressModel): Observable<HttpResponse<any>> {
-
-    return of(
-      new HttpResponse(
-        {        
-          status: 200,
-          body: 'blah'
-        }
-      )
-    )
+    return this.httpClient.patch<AddressModel>(
+      `${environment.api}user`,
+      person,
+      { 
+        observe: 'response'
+      }
+    );
   }
 
   public delete(person: AddressModel): AddressBookService {
