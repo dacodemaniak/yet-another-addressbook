@@ -6,6 +6,7 @@ import { UiModule } from './ui/ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SignComponent } from './components/sign/sign.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -25,7 +26,7 @@ import { SignComponent } from './components/sign/sign.component';
     FooterComponent,
     UiModule,
     ReactiveFormsModule,
-    
+    HttpClientModule
   ]
 })
 export class SharedModule { }

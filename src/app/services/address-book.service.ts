@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AddressDto } from '../models/address-dto';
 import { AddressModel } from '../models/address-model';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +14,9 @@ export class AddressBookService {
   private _itemCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   private _persons: AddressModel[] = [];
-  constructor() {
-    console.log(`Hey, i'm the AddressBookService`);
-    this._populate();
-    this._itemCount$.next(this._persons.length);
-  }
+  constructor(
+    private httpClient: HttpClient
+  ) {}
 
   public get itemCount(): BehaviorSubject<number> {
     return this._itemCount$;
@@ -25,8 +26,16 @@ export class AddressBookService {
    * Returns all AddressModel
    * @returns AddressModel[]
    */
-  public all(): AddressModel[] {
-    return this._persons;
+  public all(): Observable<AddressModel[]> {
+    return this.httpClient.get<any[]>(
+      `${environment.api}user`
+    )
+    .pipe(
+      take(1),
+      map((users: any[]) => {
+        return users.map((user: any) => new AddressModel().deserialize(user))
+      })
+    );
   }
 
   public one(id: number): AddressModel | undefined {

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { AddressBookService } from './services/address-book.service';
 
 @Component({
@@ -6,23 +7,23 @@ import { AddressBookService } from './services/address-book.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = `Carnet d'adresses`;
 
-  public counter: number = 0;
-
-  public persons: string[] = [
-    'Jean-Luc',
-    'Jérôme',
-    'Krim',
-    'Morgan',
-  ];
 
   public constructor(
-    private addressBookService: AddressBookService
+    private addressBookService: AddressBookService,
+    private httpClient: HttpClient
   ) {}
 
-  public increment(): void {
-    this.counter++;
+  ngOnInit(): void {
+    this.httpClient
+      .get<any>(
+        'http://worldclockapi.com/api/json/utc/now'
+      )
+      .subscribe((utc: any) => {
+        console.log(utc);
+      });
   }
+
 }
