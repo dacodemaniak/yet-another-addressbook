@@ -1,6 +1,8 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { AddressDto } from 'src/app/models/address-dto';
 import { AddressInterface } from 'src/app/models/address-interface';
 import { AddressModel } from 'src/app/models/address-model';
@@ -33,7 +35,15 @@ export class AddressManagerComponent implements OnInit {
 
   public onSubmit(formDatas: AddressInterface) {
     const dto: AddressDto = new AddressDto();
-    this.addressService.persist(dto.transform(formDatas));
+    this.addressService.persist(dto.transform(formDatas))
+      .pipe(
+        take(1)
+      )
+      .subscribe((response: HttpResponse<any>) => {
+        console.log(`Got a ${response.status} with ${JSON.stringify(response.body)}`);
+      }, (error) => {
+        
+      });
   }
 
   private _makeForm(...args: any[] ): void {

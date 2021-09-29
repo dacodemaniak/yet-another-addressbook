@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { AddressDto } from '../models/address-dto';
 import { AddressModel } from '../models/address-model';
 import { environment } from './../../environments/environment';
@@ -42,27 +42,25 @@ export class AddressBookService {
     return this._persons.find((obj: AddressModel) => obj.id === id);
   }
 
-  public persist(address: AddressModel): void {
-    console.log(address);
+  public persist(address: AddressModel): Observable<HttpResponse<any>> {
     if (address.id === undefined) {
-      this.add(address);
-    } else {
-      this.update(address);
+      return this.add(address);
     }
+    return this.update(address);
+
   }
 
-  private add(person: AddressModel): AddressBookService {
-    let nextId: number = 1;
-    if (this._persons.length) {
-      const sortPerson: AddressModel[] = [...this._persons];
-      nextId = sortPerson
-        .sort((u1: AddressModel, u2: AddressModel) => u2.id - u1.id)[0].id + 1;
-    }
-
-    person.id = nextId;
-    this._persons.push(person);
-    this._itemCount$.next(this._persons.length);
-    return this;
+  private add(person: AddressModel): Observable<HttpResponse<any>> {
+    return this.httpClient.post<AddressModel>(
+      `${environment.api}user`,
+      person,
+      {
+        observe: 'response'
+      }
+    )
+    .pipe(
+      tap(() => this._itemCount$.next(this._itemCount$.getValue() + 1))
+    );
   }
 
   /**
@@ -70,15 +68,16 @@ export class AddressBookService {
    * @param person AddressModel
    * @returns AddressBookService
    */
-  private update(person: AddressModel): AddressBookService {
+  private update(person: AddressModel): Observable<HttpResponse<any>> {
 
-    this._persons.splice(
-      this._persons.findIndex((obj: AddressModel) => obj.id === person.id),
-      1,
-      person
-    );
-
-    return this;
+    return of(
+      new HttpResponse(
+        {        
+          status: 200,
+          body: 'blah'
+        }
+      )
+    )
   }
 
   public delete(person: AddressModel): AddressBookService {

@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HTT
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import { AddressModel } from '../models/address-model';
 
 const users: any[] = localStorage.getItem('users') ?
   JSON.parse(localStorage.getItem('users')!) :
@@ -28,6 +29,28 @@ const router: Map<string, {path: RegExp, method: string, action: any}> = new Map
       }
     }
   )
+  .set(
+    'add',
+    {
+      path: /\api\/v1\/user$/,
+      method: 'POST',
+      action: (body: AddressModel): Observable<HttpResponse<any>> => {
+        let nextId: number = 1;
+        if (users.length) {
+          nextId = users.sort((u1: AddressModel, u2: AddressModel) => u2.id - u1.id)[0].id + 1;
+        }
+        body.id = nextId;
+        users.push(body);
+        localStorage.setItem('users', JSON.stringify(users));
+        return of(
+          new HttpResponse({
+            status: 201,
+            body
+          })
+        )
+      }
+    }
+  )
 @Injectable({
   providedIn: 'root'
 })
@@ -45,7 +68,7 @@ class FakeBackendService implements HttpInterceptor {
 
       for (const route of routes) {
         if (route.path.test(url) && route.method === method) {
-          return route.action();
+          return route.action(body);
         }
       }
 
