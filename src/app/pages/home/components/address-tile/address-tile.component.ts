@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { AddressModel } from 'src/app/models/address-model';
 import { AddressBookService } from 'src/app/services/address-book.service';
 
@@ -11,7 +12,8 @@ export class AddressTileComponent implements OnInit {
   @Input() public person!: AddressModel;
 
   constructor(
-    private addressBookService: AddressBookService
+    private addressBookService: AddressBookService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -21,4 +23,7 @@ export class AddressTileComponent implements OnInit {
     this.addressBookService.delete(this.person);
   }
 
+  public update(): void {
+    this.router.navigate(['update-address', this.person.id])
+  }
 }

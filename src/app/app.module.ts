@@ -7,17 +7,18 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { AddressTileComponent } from './pages/home/components/address-tile/address-tile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddAddressComponent } from './pages/add-address/add-address.component';
-import { RouterModule } from '@angular/router';
-import { UpdateAddressComponent } from './pages/update-address/update-address.component';
+import { AddressFormComponent } from './pages/forms/address-form/address-form.component';
+import { AddressManagerComponent } from './pages/address-manager/address-manager.component';
+import { FormComponent } from './pages/address-manager/components/form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AddressTileComponent,
-    AddAddressComponent,
-    UpdateAddressComponent
+    AddressFormComponent,
+    AddressManagerComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
