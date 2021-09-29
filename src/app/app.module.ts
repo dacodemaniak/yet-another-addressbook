@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddressFormComponent } from './pages/forms/address-form/address-form.component';
 import { AddressManagerComponent } from './pages/address-manager/address-manager.component';
 import { FormComponent } from './pages/address-manager/components/form/form.component';
+import { fakeBackendProvider } from './services/fake-backend.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { FormComponent } from './pages/address-manager/components/form/form.comp
     SharedModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
