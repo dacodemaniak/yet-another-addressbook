@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { AddAddressComponent } from './pages/add-address/add-address.component';
+import { AddressManagerComponent } from './pages/address-manager/address-manager.component';
 import { HomeComponent } from './pages/home/home.component';
-import { UpdateAddressComponent } from './pages/update-address/update-address.component';
 
 const routes: Routes = [
   {
@@ -17,14 +16,17 @@ const routes: Routes = [
   },
   {
     path: 'add-address',
-    component: AddAddressComponent,
+    component: AddressManagerComponent,
     canActivate: [
       AuthGuard
     ]
   },
   {
-    path: 'update/:id',
-    component: UpdateAddressComponent,
+    path: 'update-address/:id',
+    component: AddressManagerComponent,
+    canActivate: [
+      AuthGuard
+    ]
   },
   {
     path: '**',

@@ -1,0 +1,30 @@
+<ng-container *ngIf="form; wait">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <fieldset [title]="getTitle()">
+            <legend>{{ getTitle() }}</legend>
+            <mat-form-field>
+                <input matInput placeholder="Prénom" formControlName="firstname">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Nom (*)" formControlName="lastname">
+                <mat-hint>Le nom est obligatoire...</mat-hint>
+                <mat-error *ngIf="c.lastname.touched || c.lastname.dirty && c.lastname.errors">
+                    Vous devez saisir un nom valide...
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input type="date" matInput placeholder="Date de naissance" formControlName="birthdate">
+            </mat-form-field>
+        </fieldset>
+
+        <button
+            [disabled]="form.invalid"
+        >
+            Valider
+        </button>
+    </form>
+</ng-container>
+
+<ng-template #wait>
+    Please wait...
+</ng-template>

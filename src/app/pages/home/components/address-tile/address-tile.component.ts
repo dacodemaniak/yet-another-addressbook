@@ -24,6 +24,6 @@ export class AddressTileComponent implements OnInit {
   }
 
   public update(): void {
-    this.router.navigate(['update', this.person.id])
+    this.router.navigate(['update-address', this.person.id])
   }
 }

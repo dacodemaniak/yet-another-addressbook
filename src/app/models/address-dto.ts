@@ -11,12 +11,11 @@ export class AddressDto implements AddressInterface {
         const formData: any = {
             _lastname: values.lastname,
             _firstname: values.firstname,
-            _birthdate: values.birthdate
+            _birthdate: values.birthdate,
+            _id: values.id
         };
+        
 
-        if (values.hasOwnProperty('_id')) {
-            formData._id = values.id;
-        }
         return new AddressModel().deserialize(formData);
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { AddressDto } from '../models/address-dto';
 import { AddressModel } from '../models/address-model';
 
 @Injectable({
@@ -32,7 +33,16 @@ export class AddressBookService {
     return this._persons.find((obj: AddressModel) => obj.id === id);
   }
 
-  public add(person: AddressModel): AddressBookService {
+  public persist(address: AddressModel): void {
+    console.log(address);
+    if (address.id === undefined) {
+      this.add(address);
+    } else {
+      this.update(address);
+    }
+  }
+
+  private add(person: AddressModel): AddressBookService {
     let nextId: number = 1;
     if (this._persons.length) {
       const sortPerson: AddressModel[] = [...this._persons];
@@ -51,7 +61,7 @@ export class AddressBookService {
    * @param person AddressModel
    * @returns AddressBookService
    */
-  public update(person: AddressModel): AddressBookService {
+  private update(person: AddressModel): AddressBookService {
 
     this._persons.splice(
       this._persons.findIndex((obj: AddressModel) => obj.id === person.id),
